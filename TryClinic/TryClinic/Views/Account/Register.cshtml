@@ -1,0 +1,151 @@
+﻿@model TryClinic.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>@ViewBag.Title.</h2>
+@if (!Request.IsAuthenticated)
+{
+using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    @*User Name*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    @*First Name*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    @*Last Name*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+
+    @*Date of Birth*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", type = "Date" })
+        </div>
+    </div>
+
+
+    @*Gender*@
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(m => m.Gender, "Choose Gender Please", 
+           new { @class = "form-control" })
+            @*
+
+
+                         new SelectList(
+
+
+                    new List<SelectListItem>() {
+
+                        new SelectListItem() { Text = "Male", Value = "Male" },
+                        new SelectListItem() { Text = "Female", Value = "Female"}
+
+
+
+                    },"Value","Text"
+
+                )
+            *@
+        </div>
+    </div>
+
+
+
+    @*Role*@
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Role,new SelectList(
+
+           new List<SelectListItem>()
+           {
+
+               new SelectListItem(){ Text=ViewBag.Role,Value= ViewBag.Role}
+           }
+           ,"Value","Text") ,"Choose Your Role Please", new { @class = "form-control" })
+        </div>
+    </div>
+
+
+
+    @*Clinic*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClinicId, "Clinic", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m=>m.ClinicId, (SelectList)ViewBag.MyClinic, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ClinicId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+
+}
+else
+{
+    <br />
+    <br />    <br />
+<h1>You are Already Logged in</h1>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

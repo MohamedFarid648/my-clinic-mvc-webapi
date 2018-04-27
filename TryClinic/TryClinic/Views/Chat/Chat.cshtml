@@ -1,0 +1,77 @@
+﻿@model IEnumerable<TryClinic.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Chat";
+}
+<br /><br /><br />
+<h2>Chat</h2>
+<div class="row">
+    <div class="col-3">
+        <form>
+            <div class="form-group">
+                <select class="form-control" id="txtReciever" name="Users">
+
+                    @foreach(var u in Model)
+                    {
+
+                        <option value="@u.UserName">@u.UserName</option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="col-9">
+        <ul id="UlMessages">
+
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+    </div>
+    <div class="col-9">
+        <textarea cols="3" rows="2"  id="txtMessage" class="form-control"  placeholder="Message"></textarea><br />
+       
+        <input type="hidden" id="txtSender" class="form-control" value="@User.Identity.Name" /><br />
+        
+        <input type="button" value="Send" class="btn btn-success" onclick="sendMessage()" />
+    </div>
+ </div>
+
+<script src="~/signalr/hubs"></script>
+
+<script type="text/javascript">
+
+    var chatHub;
+    $(document).ready(function () {
+
+        $.connection.hub.start();
+        chatHub = $.connection.chatHub;
+
+        chatHub.client.newMessage = function (sender, reciever, message, groupName) {
+
+
+            $("#UlMessages").append(`
+
+                                   <li>
+
+
+                                     ${sender} Sent  ${message} to ${reciever} in ${groupName} Group
+                                    </li>
+
+                              `);
+
+        }
+
+
+    })
+    
+
+    function sendMessage() {
+        chatHub.server.sendMessage($("#txtSender").val(), $("#txtReciever").val(), $("#txtMessage").val())
+
+    }
+</script>

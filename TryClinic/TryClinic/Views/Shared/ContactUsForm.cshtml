@@ -1,0 +1,92 @@
+﻿@model TryClinic.Models.ContactUsForm
+
+<div id="ReplyMessage"></div>
+
+@using(Ajax.BeginForm("ContactForm", "Home", new AjaxOptions
+{
+
+    HttpMethod = "POST"
+                            ,
+    UpdateTargetId = "ReplyMessage"
+                            ,
+    InsertionMode = InsertionMode.InsertAfter
+                            ,
+    LoadingElementId = "WaitingImage"
+}))
+
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control br-radius-zero", placeholder = "Your Name" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" , placeholder = "Your Email" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+              @*  @Html.TextAreaFor(model => model.Message, new { htmlAttributes = new { @class = "form-control br-radius-zero", cols = 10, rows = 2, placeholder = "Your Message" } })
+                *@
+                <textarea class="form-control br-radius-zero" name="Message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                <div class="validation"></div>
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-action">
+            <input type="submit" class="btn btn-form" value="Send Message"/>
+        </div>
+        </div>
+
+        }
+
+
+
+
+        
+
+
+
+
+<div id="WaitingImage" style="display:none">
+    Loading...<img src="~/Content/Medilab/img/LoadingImg.gif" />
+</div>
+<!--
+<form action="/Home/ContactUs" method="post" role="form" class="">
+    <div class="form-group">
+        <input type="text" name="name" class="form-control br-radius-zero" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+        <div class="validation"></div>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control br-radius-zero" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+        <div class="validation"></div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control br-radius-zero" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+        <div class="validation"></div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control br-radius-zero" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+        <div class="validation"></div>
+    </div>
+
+    <div class="form-action">
+        <button type="submit" class="btn btn-form">Send Message</button>
+    </div>
+</form>
+
+
+    -->
